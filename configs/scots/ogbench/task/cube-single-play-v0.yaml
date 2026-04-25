@@ -1,0 +1,8 @@
+env_name: "cube-single-play-v0"
+horizons: [10, 15]
+
+low_controller: gcbc
+goal_tol: 3.0
+replan_every: 20
+low_horizon: 5
+w_ldg: 0

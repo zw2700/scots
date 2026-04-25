@@ -10,6 +10,7 @@ pipeline_name: scots_ogbench
 mode: train
 seed: 0
 device: cuda:0
+dataset_source: none
 
 # Diffuser
 solver: ddim

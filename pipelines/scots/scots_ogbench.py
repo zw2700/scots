@@ -25,6 +25,7 @@ from cleandiffuser.utils import report_parameters
 from cleandiffuser_ex.utils import set_seed
 from cleandiffuser_ex.gciql import GCIQL
 from cleandiffuser_ex.crl import CRL
+from cleandiffuser_ex.gcbc import GCBC
 from cleandiffuser_ex.dataset.ogbench_dataset import MultiHorizonOGBenchDataset
 
 
@@ -323,24 +324,31 @@ def pipeline(args):
     )
     obs_dim, act_dim = env.observation_space.shape[0], env.action_space.shape[0]
 
-    ob_dtype = np.uint8 if ('visual' in args.task.env_name or 'powderworld' in args.task.env_name) else np.float32
-    action_dtype = np.int32 if 'powderworld' in args.task.env_name else np.float32
-    aug_dataset = load_dataset(
-        os.path.join(stitcher_path, f'{args.task.env_name}'+'_augmented.npz'),
-        ob_dtype=ob_dtype,
-        action_dtype=action_dtype,
-        compact_dataset=True,
-        add_info=False,
-    )
+    dataset_source = args.dataset_source
+    if dataset_source not in {"only", "concat", "none"}:
+        raise ValueError(
+            f"Unsupported dataset_source: {dataset_source}. "
+            "Expected one of {'only', 'concat', 'none'}."
+        )
 
-    # utilize augmented data
-    if 'navigate' in args.task.env_name:
-        dataset = {
-            key: np.concatenate([dataset[key], aug_dataset[key]], axis=0)
-            for key in dataset.keys()
-        }
-    else:
-        dataset = aug_dataset
+    if dataset_source in {"only", "concat"}:
+        ob_dtype = np.uint8 if ('visual' in args.task.env_name or 'powderworld' in args.task.env_name) else np.float32
+        action_dtype = np.int32 if 'powderworld' in args.task.env_name else np.float32
+        aug_dataset = load_dataset(
+            os.path.join(stitcher_path, f'{args.task.env_name}'+'_augmented.npz'),
+            ob_dtype=ob_dtype,
+            action_dtype=action_dtype,
+            compact_dataset=True,
+            add_info=False,
+        )
+
+        if dataset_source == "only":
+            dataset = aug_dataset
+        else:
+            dataset = {
+                key: np.concatenate([dataset[key], aug_dataset[key]], axis=0)
+                for key in dataset.keys()
+            }
     
     dataset = MultiHorizonOGBenchDataset(
         dataset, 
@@ -439,6 +447,11 @@ def pipeline(args):
             low_controller = GCIQL(obs_dim, act_dim, device=args.device)
             low_controller.load(low_controller_save_path + f'gciql_ckpt_latest.pt')
             print(low_controller_save_path + f'gciql_ckpt_latest.pt')
+        elif args.task.low_controller == 'gcbc':
+            low_controller_save_path = f'results/GCBC/{args.task.env_name}/'
+            low_controller = GCBC(obs_dim, act_dim, device=args.device)
+            low_controller.load(low_controller_save_path + f'gcbc_ckpt_latest.pt')
+            print(low_controller_save_path + f'gcbc_ckpt_latest.pt')
         elif args.task.low_controller == 'crl':
             low_controller_save_path = f'results/CRL/{args.task.env_name}/'
             low_controller = CRL(obs_dim, act_dim, device=args.device)
