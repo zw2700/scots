@@ -4,7 +4,6 @@ import glob
 import dataclasses
 
 import ogbench
-import ogbench_ex
 import pyrallis
 
 from cleandiffuser_ex.gcbc import GCBC, load_gcbc_jax_checkpoint_to_pytorch
@@ -20,6 +19,7 @@ class Config:
 @pyrallis.wrap()
 def main(config: Config):
     if 'checker' in config.env_name:
+        import ogbench_ex
         env, dataset, _ = ogbench_ex.make_env_and_datasets(
             config.env_name,
             compact_dataset=False,

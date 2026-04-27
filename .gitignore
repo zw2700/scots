@@ -1,1 +1,7 @@
 *pycache*
+*.pkl
+venv*
+logs*
+results*
+*.sh
+scripts/low_level_controller/exp/*

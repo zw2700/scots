@@ -34,10 +34,12 @@ max_epsode_lengths = {
     "pointmaze-large-stitch-v0": 1000,
     "pointmaze-giant-stitch-v0": 2000, 
     "antmaze-medium-stitch-v0": 1000,
+    "antmaze-medium-navigate-v0": 1000,
     "antmaze-large-stitch-v0": 2000,
     "antmaze-giant-stitch-v0": 2000,
     "antmaze-medium-explore-v0": 2000,
     "antmaze-large-explore-v0": 2000,
+    "cube-single-play-v0": 500,
 }
 
 
