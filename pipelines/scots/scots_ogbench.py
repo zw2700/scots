@@ -303,9 +303,9 @@ def pipeline(args):
 
     set_seed(args.seed)
 
-    save_path = f'results/{args.pipeline_name}/{args.task.env_name}/'
+    save_path = f'results/{args.pipeline_name}/{args.task.env_name}/seed{args.seed}/'
     stitcher_path = f'results/stitcher_ogbench_H{args.task.horizons[1]}/{args.task.env_name}/'
-    
+
     summary_dir = f'results/{args.pipeline_name}/{args.task.env_name}/'
     summary_filename = os.path.join(summary_dir, f"hyp_sweep_summary_{args.group}.csv")
 
@@ -445,17 +445,17 @@ def pipeline(args):
             print(save_path + f'{"diffusion"}{i}_ckpt_{args.diffusion_ckpt}.pt')
 
         if args.task.low_controller == 'gciql':
-            low_controller_save_path = f'results/GCIQL/{args.task.env_name}/'
+            low_controller_save_path = f'results/GCIQL/{args.task.env_name}/seed{args.seed}/'
             low_controller = GCIQL(obs_dim, act_dim, device=args.device)
             low_controller.load(low_controller_save_path + f'gciql_ckpt_latest.pt')
             print(low_controller_save_path + f'gciql_ckpt_latest.pt')
         elif args.task.low_controller == 'gcbc':
-            low_controller_save_path = f'results/GCBC/{args.task.env_name}/'
+            low_controller_save_path = f'results/GCBC/{args.task.env_name}/seed{args.seed}/'
             low_controller = GCBC(obs_dim, act_dim, device=args.device)
             low_controller.load(low_controller_save_path + f'gcbc_ckpt_latest.pt')
             print(low_controller_save_path + f'gcbc_ckpt_latest.pt')
         elif args.task.low_controller == 'crl':
-            low_controller_save_path = f'results/CRL/{args.task.env_name}/'
+            low_controller_save_path = f'results/CRL/{args.task.env_name}/seed{args.seed}/'
             low_controller = CRL(obs_dim, act_dim, device=args.device)
             low_controller.load(low_controller_save_path + f'crl_ckpt_latest.pt')
             print(low_controller_save_path + f'crl_ckpt_latest.pt')

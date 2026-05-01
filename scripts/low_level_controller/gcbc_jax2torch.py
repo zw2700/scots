@@ -14,6 +14,7 @@ class Config:
     env_name: str = "pointmaze-large-navigate-v0"
     save_dir: str = 'exp/'
     restore_epoch: int = 1000000
+    seed: int = 0
 
 
 @pyrallis.wrap()
@@ -35,7 +36,7 @@ def main(config: Config):
     act_dim = env.action_space.shape[0]
     gcbc = GCBC(obs_dim, act_dim, device="cuda")
 
-    candidates = glob.glob(f'./exp/gcbc-{config.env_name}')
+    candidates = glob.glob(f'./exp/gcbc-{config.env_name}-seed{config.seed}')
     assert len(candidates) == 1, f'Found {len(candidates)} candidates: {candidates}'
 
     restore_path = candidates[0] + f'/params_{config.restore_epoch}.pkl'

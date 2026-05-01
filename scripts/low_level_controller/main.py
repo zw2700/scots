@@ -47,7 +47,7 @@ def main(_):
     # Set up logger.
     config = FLAGS.agent
 
-    run_name = f"{config['agent_name']}-{FLAGS.env_name}"
+    run_name = f"{config['agent_name']}-{FLAGS.env_name}-seed{FLAGS.seed}"
     # run_name += f'-{datetime.now().strftime("%Y%m%d_%H%M%S")}'
     setup_wandb(project='scots-ogbench', group=FLAGS.run_group, name=run_name)
 
