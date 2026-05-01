@@ -1,3 +1,41 @@
+# Namrata's Project — SCoTS Evaluation on OGBench
+
+This repo contains an implementation of SCoTS for Namrata's project. We evaluate on `antmaze-medium-navigate-v0` and `cube-single-play-v0`. All 8 seeds have finished running.
+
+## Results
+
+All runs use `low_controller=gcbc`, `goal_tol=3.0`, `low_horizon=5`, `w_ldg=0`.
+
+### antmaze-medium-navigate-v0 (`replan_every=50`)
+
+| Seed | Success Rate |
+|------|-------------|
+| 0    | 14.8%       |
+| 1    | 10.8%       |
+| 2    | 8.4%        |
+| 3    | 9.6%        |
+| 4    | 17.6%       |
+| 5    | 7.6%        |
+| 6    | 10.0%       |
+| 7    | 11.2%       |
+| **Mean** | **11.25%** |
+
+### cube-single-play-v0 (`replan_every=20`)
+
+| Seed | Success Rate |
+|------|-------------|
+| 0    | 17.6%       |
+| 1    | 15.2%       |
+| 2    | 9.2%        |
+| 3    | 10.0%       |
+| 4    | 5.2%        |
+| 5    | 11.6%       |
+| 6    | 10.4%       |
+| 7    | 6.4%        |
+| **Mean** | **10.70%** |
+
+---
+
 # State-Covering Trajectory Stitching for Diffusion Planners
 
 <!-- ArXiv: http://arxiv.org/abs/2506.00895
